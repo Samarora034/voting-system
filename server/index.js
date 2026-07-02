@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use('/api/parties', require('./routes/parties'));
 app.use('/api/voters', require('./routes/voters'));
 app.use('/api/elections', require('./routes/elections'));
@@ -19,7 +19,12 @@ app.use('/api/votes', require('./routes/votes'));
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('/{*splat}', (req, res) => {
+
+  // SPA fallback - only for non-API routes
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
 }
