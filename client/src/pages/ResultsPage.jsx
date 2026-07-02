@@ -16,7 +16,11 @@ function ResultsPage() {
           const el = electionsRes.data[0];
           setElection(el);
           const resultsRes = await api.get(`/votes/results/${el._id}`);
-          setResults(resultsRes.data);
+          const resData = resultsRes.data || {};
+          setResults({
+            totalVotes: resData.totalVotes || 0,
+            results: Array.isArray(resData.results) ? resData.results : []
+          });
         }
       } catch (err) {
         console.error('Failed to fetch results:', err);

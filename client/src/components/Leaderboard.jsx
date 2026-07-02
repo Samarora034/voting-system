@@ -10,7 +10,11 @@ function Leaderboard({ electionId, limit = null, autoRefresh = true }) {
     if (!electionId) return;
     try {
       const res = await api.get(`/votes/leaderboard/${electionId}`);
-      setData(res.data);
+      const resData = res.data || {};
+      setData({
+        totalVotes: resData.totalVotes || 0,
+        leaderboard: Array.isArray(resData.leaderboard) ? resData.leaderboard : []
+      });
     } catch (err) {
       console.error('Failed to fetch leaderboard:', err);
     } finally {
