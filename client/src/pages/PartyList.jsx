@@ -10,7 +10,7 @@ function PartyList() {
     const fetchParties = async () => {
       try {
         const res = await api.get('/parties');
-        setParties(res.data);
+        setParties(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch parties:', err);
       } finally {

@@ -14,8 +14,9 @@ function HomePage() {
     const fetchElection = async () => {
       try {
         const res = await api.get('/elections');
-        if (res.data.length > 0) {
-          setElection(res.data[0]); // Most recent election
+        const data = Array.isArray(res.data) ? res.data : [];
+        if (data.length > 0) {
+          setElection(data[0]); // Most recent election
         }
       } catch (err) {
         console.error('Failed to fetch elections:', err);

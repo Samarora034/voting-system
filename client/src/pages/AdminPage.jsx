@@ -25,7 +25,7 @@ function AdminPage() {
   const fetchParties = async () => {
     try {
       const res = await api.get('/parties/all');
-      setParties(res.data);
+      setParties(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error(err);
     }
@@ -34,7 +34,7 @@ function AdminPage() {
   const fetchElections = async () => {
     try {
       const res = await api.get('/elections');
-      setElections(res.data);
+      setElections(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error(err);
     }

@@ -21,8 +21,8 @@ function VotingPage() {
           api.get('/parties'),
           api.get('/elections')
         ]);
-        setParties(partiesRes.data);
-        if (electionsRes.data.length > 0) {
+        setParties(Array.isArray(partiesRes.data) ? partiesRes.data : []);
+        if (Array.isArray(electionsRes.data) && electionsRes.data.length > 0) {
           setElection(electionsRes.data[0]);
         }
 
